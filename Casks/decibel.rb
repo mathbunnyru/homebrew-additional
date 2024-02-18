@@ -5,7 +5,7 @@ cask "decibel" do
   # s3.amazonaws.com/feisty-dog/ was verified as official when first introduced to the cask
   url "https://s3.amazonaws.com/feisty-dog/Decibel-#{version}.dmg", verified: "s3.amazonaws.com/feisty-dog/"
   name "Decibel"
-  desc "An audio player tailored to the particular needs of audiophiles"
+  desc "Audio player tailored to the particular needs of audiophiles"
   homepage "https://www.feisty-dog.com/decibel/"
 
   app "Decibel.app"
