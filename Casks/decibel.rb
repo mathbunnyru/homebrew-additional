@@ -1,6 +1,6 @@
 cask "decibel" do
-  version "2.0b34"
-  sha256 "56a109c925c66ac0230f989d98364c456236b7faa00312ead189ca737b8e2b1d"
+  version "2.0b35"
+  sha256 "c9788e547b09ba59bdef8abf4c634f9796823ef7f984691c608f2d37e92433f2"
 
   # s3.amazonaws.com/feisty-dog/ was verified as official when first introduced to the cask
   url "https://s3.amazonaws.com/feisty-dog/Decibel-#{version}.dmg", verified: "s3.amazonaws.com/feisty-dog/"
