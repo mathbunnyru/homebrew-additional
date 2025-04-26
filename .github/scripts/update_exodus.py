@@ -5,9 +5,6 @@ import re
 import subprocess
 from pathlib import Path
 
-THIS_SCRIPT = Path(__file__).resolve()
-REPO_ROOT = THIS_SCRIPT.parent.parent.parent
-
 
 def load_livecheck_data(livechek_json: Path) -> tuple[str, str]:
     with open(livechek_json) as f:
