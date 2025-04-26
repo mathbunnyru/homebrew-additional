@@ -41,7 +41,7 @@ jobs:
       - name: Check for update and patch exodus.rb
         run: |
           python3 .github/scripts/update_exodus.py \
-            --livechek-json livecheck.json \
+            --livecheck-json livecheck.json \
             --exodus-rb ./Casks/exodus.rb
 
       - name: Create Pull Request
