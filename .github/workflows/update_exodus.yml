@@ -25,9 +25,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Exodus Cask
-        run: |
-          brew install --cask ./Casks/exodus.rb
+      # - name: Install Exodus Cask
+      #   run: |
+      #     brew install --cask ./Casks/exodus.rb
 
       - name: Tap local brew repository
         run: |
