@@ -7,15 +7,16 @@ on:
   pull_request:
     paths:
       - Casks/exodus.rb
-      - .github/scripts/update_exodus.py
       - .github/workflows/update_exodus.yml
   push:
     branches:
       - main
     paths:
       - Casks/exodus.rb
-      - .github/scripts/update_exodus.py
       - .github/workflows/update_exodus.yml
+
+env:
+  USER_AGENT: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36"
 
 jobs:
   update-exodus:
@@ -25,24 +26,38 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Exodus Cask
+      - name: Latest version
+        id: latest_version
         run: |
-          brew install --cask ./Casks/exodus.rb
+          wget --user-agent="${USER_AGENT}" \
+              https://www.exodus.com/releases/
+          VERSION="$(grep -oE 'hashes-exodus-[^/]+\.txt' index.html | sed -E 's/hashes-exodus-(.+)\.txt/\1/')"
+          rm index.html
 
-      - name: Tap local brew repository
-        run: |
-          brew tap local/tap ./
+          echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT"
 
-      - name: Run brew livecheck
-        id: livecheck
+      - name: Update version
         run: |
-          brew livecheck --cask exodus --json > livecheck.json
+          VERSION=${{ steps.latest_version.outputs.VERSION }}
+          sed -i '' "s/version \".*\"/version \"$VERSION\"/" Casks/exodus.rb
 
-      - name: Check for update and patch exodus.rb
+      - name: Update SHA256
         run: |
-          python3 .github/scripts/update_exodus.py \
-            --livecheck-json livecheck.json \
-            --exodus-rb ./Casks/exodus.rb
+          VERSION=${{ steps.latest_version.outputs.VERSION }}
+
+          wget --user-agent="${USER_AGENT}" \
+              "https://downloads.exodus.com/releases/exodus-macos-arm64-${VERSION}.dmg" \
+              -O exodus.dmg
+          SHA256="$(shasum -a 256 exodus.dmg | awk '{print $1}')"
+          rm exodus.dmg
+          sed -i '' "s/sha256 arm:   \".*\"/sha256 arm:   \"$SHA256\"/" Casks/exodus.rb
+
+          wget --user-agent="${USER_AGENT}" \
+              "https://downloads.exodus.com/releases/exodus-macos-${VERSION}.dmg" \
+              -O exodus.dmg
+          SHA256="$(shasum -a 256 exodus.dmg | awk '{print $1}')"
+          rm exodus.dmg
+          sed -i '' "s/       intel: \".*\"/       intel: \"$SHA256\"/" Casks/exodus.rb
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
