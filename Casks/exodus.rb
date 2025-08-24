@@ -6,7 +6,7 @@ cask "exodus" do
          intel: "ce750c26c216f328ce3108af5738555e46069b1e699e97691312cbdfc79ffb3d"
 
   url "https://downloads.exodus.com/releases/exodus-#{arch}-#{version}.dmg",
-      user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36"
+      user_agent: :fake
   name "Exodus"
   desc "Desktop wallet for cryptocurrency assets"
   homepage "https://www.exodus.com/"
