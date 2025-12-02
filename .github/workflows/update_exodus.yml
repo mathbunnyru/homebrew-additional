@@ -31,7 +31,7 @@ jobs:
         run: |
           wget --user-agent="${USER_AGENT}" \
               https://www.exodus.com/releases/
-          VERSION="$(grep -oE 'hashes-exodus-[^/]+\.txt' index.html | sed -E 's/hashes-exodus-(.+)\.txt/\1/')"
+          VERSION="$(grep -oE 'hashes-exodus-[^/]+\.txt' index.html | sed -E 's/hashes-exodus-(.+)\.txt/\1/' | head -n 1)"
           rm index.html
 
           echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT"
